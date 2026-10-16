@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="statics/css/modal.css">
+<title>TOKO - ご視聴ありがとうございました</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: #5dc2d0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  }
+
+  .screen {
+    width: 100%;
+    max-width: 960px;
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  .logo {
+    max-width: 320px;
+    width: 60%;
+    height: auto;
+    margin-bottom: 48px;
+  }
+
+  .message {
+    color: #555555;
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin-bottom: 64px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    background-color: #0c5ba8;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    min-width: 220px;
+    padding: 22px 32px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    background-color: #094a8a;
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  @media (max-width: 480px) {
+    .message {
+      font-size: 22px;
+      margin-bottom: 40px;
+    }
+    .btn {
+      min-width: 160px;
+      padding: 18px 20px;
+      font-size: 16px;
+    }
+  }
+
+  /* スマホ横向き（低い高さ）専用の詰め込みレイアウト */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .screen {
+      padding: 20px 20px;
+    }
+
+    .logo {
+      max-width: 160px;
+      margin-bottom: 16px;
+    }
+
+    .message {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      gap: 12px;
+    }
+
+    .btn {
+      min-width: 140px;
+      padding: 12px 20px;
+      font-size: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="screen">
+    <img class="logo" src="statics/img/toko-logo.png" alt="TOKO">
+    <p class="message">ご視聴ありがとうございました。</p>
+    <div class="buttons">
+      <button class="btn" type="button" onclick="location.href='https://www.tokoinsatsu.co.jp/product.html'">もどる</button>
+      <!-- <button class="btn" type="button" onclick="location.href='https://interactive-common.pages.dev/#'">もう一度<br>再生する</button> -->
+      <!-- <a class="btn" href="#" onclick="openDiagnosis('https://video-story-common.pages.dev/?config=/main.json'); return false;">
+        <span>もう一度<br>再生する</span> -->
+        <a id="restart-btn" class="btn" href="#">
+          <span>もう一度<br>再生する</span>
+      </a>
+      </a>
+    </div>
+  </div>
+
+  <!-- モーダル①（メイン動画） -->
+  <div id="video-modal" onclick="closeDiagnosis()">
+    <button id="modal-close" onclick="closeDiagnosis()">✕</button>
+    <iframe id="diag-frame" src=""></iframe>
+  </div>
+
+  <!-- モーダル②（詳細動画） -->
+  <div id="detail-modal" onclick="closeDetailModal()">
+    <button id="detail-close" onclick="closeDetailModal()">✕</button>
+    <iframe id="detail-frame" src=""></iframe>
+  </div>
+</div>
+<script src="statics/js/script.js"></script>
+<script>
+  // ページが完全に読み込まれたら実行
+  // window.addEventListener('DOMContentLoaded', () => {
+  //   // 自動起動したいURLを指定して関数を呼び出す
+  //   openDiagnosis('https://video-story-common.pages.dev/?config=/main.json');
+  // });
+  window.addEventListener('DOMContentLoaded', () => {
+    // URLのクエリパラメータ (?url=...) を取得する
+    // ※URLSearchParams.get() は自動でデコード（%2F → / や %3F → ? など）してくれます
+    const params = new URLSearchParams(window.location.search);
+    const paramUrl = params.get('url');
+
+    // デフォルトのURL
+    const defaultUrl = 'https://video-story-common.pages.dev/?config=/main.json';
+
+    // パラメータがあればそれを使い、なければデフォルトを採用
+    const targetUrl = paramUrl || defaultUrl;
+
+    // 自動起動
+    openDiagnosis(targetUrl);
+
+    // 「もう一度再生する」ボタンのリンク先も連動させる
+    const diagLink = document.querySelector('.buttons a');
+    if (diagLink) {
+      diagLink.setAttribute('onclick', `openDiagnosis('${targetUrl}'); return false;`);
+    }
+  });
+</script>
+</body>
+</html>

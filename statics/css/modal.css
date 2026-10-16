@@ -1,0 +1,55 @@
+/* ── モーダル共通 ───────────────────────────────────────────── */
+/* z-index: style.cssの9999より大きく設定 */
+
+#video-modal,
+#detail-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.95);
+  align-items: center;
+  justify-content: center;
+}
+
+/* 閉じるボタン共通 */
+#modal-close,
+#detail-close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: 10001;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+
+#modal-close:hover,
+#detail-close:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* iframe: 16:9アスペクト比を維持しつつ画面中央に収める */
+#diag-frame,
+#detail-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: black;
+  display: block;
+}
+
+/* JSでの表示切り替え用 */
+#video-modal.open,
+#detail-modal.open {
+  display: flex;
+}

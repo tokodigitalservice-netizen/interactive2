@@ -1,0 +1,375 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F5F4F0;
+      --ink: #111110;
+      --mid: #6B6B68;
+      --rule: #D8D7D2;
+      --card: #EEECEA;
+      --accent: #111110;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      /* ↓ 後から背景写真を入れるときはここを差し替え */
+      /* background-image: url('your-photo.jpg');
+         background-size: cover;
+         background-position: center;
+         background-attachment: fixed; */
+      color: var(--ink);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 48px; /* 上下パディングを少し詰めました */
+      background: rgba(245,244,240,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+      height: 70px; /* 高さを固定すると安定します */
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      height: 100%; /* 親要素(nav)の高さに合わせる */
+    }
+
+    /* ロゴ画像自体の制御 */
+    .logo-img {
+      height: 32px; /* PCでのロゴの高さ */
+      width: auto;  /* アスペクト比を維持 */
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav-cta {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--ink);
+      padding: 10px 24px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+      white-space: nowrap; /* 改行を防ぐ */
+    }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+  nav {
+    padding: 0 20px;
+    height: 60px; /* スマホのナビ高さ */
+  }
+
+  /* 修正ポイント：ナビに隠れないよう余白を追加 */
+  .features {
+    padding-top: 80px; /* ナビの高さ(60px) + 少しの余裕(20px) */
+  }
+
+  /* ラベル自体のマージンも調整して見やすく */
+  .section-label {
+    margin-bottom: 40px;
+    font-size: 0.7rem;
+    color: #9a6f3a;
+  }
+}
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 8vw, 7rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.4s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--mid);
+    }
+
+    .hero-sub {
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      color: var(--mid);
+      max-width: 420px;
+      line-height: 1.9;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.6s forwards;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--ink);
+      padding: 16px 40px;
+      border-radius: 999px;
+      text-decoration: none;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.8s forwards;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .hero-btn:hover { transform: translateY(-2px); opacity: 0.8; }
+
+    .hero-btn svg { transition: transform 0.25s ease; }
+    .hero-btn:hover svg { transform: translateX(4px); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.2s forwards;
+    }
+
+    .hero-scroll span {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -40px;
+      left: 0;
+      width: 1px;
+      height: 40px;
+      background: var(--ink);
+      animation: scrollDrop 1.5s ease infinite;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 100px 24px 120px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 64px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color : #9a6f3a;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+      color : #9a6f3a;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .card {
+      text-decoration: none !important;
+      background: var(--card);
+      padding: 48px 40px 52px;
+      border-radius: 0;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+      cursor: default;
+      touch-action: manipulation;
+    }
+
+    .card:first-child { border-radius: 24px 0 0 24px; }
+    .card:last-child  { border-radius: 0 24px 24px 0; }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--ink);
+      transform: translateY(100%);
+      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .card:hover { background: var(--card); }
+    .card:hover::before { transform: translateY(0); }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-number {
+      font-family: 'Noto Sans JP', serif;
+      font-size: 0.85rem;
+      color: var(--mid);
+      margin-bottom: 40px;
+      transition: color 0.3s;
+    }
+
+    .card:hover .card-number { color: rgba(255,255,255,0.4); }
+
+    .card-title {
+        font-family: 'Noto Sans JP', sans-serif;
+        /* 最小値を少し下げて、推奨値を大きくすることで、広い画面でダイナミックに */
+        font-size: clamp(1.1rem, 2.5vw, 1.8rem); 
+        font-weight: 700;
+        line-height: 1.4;
+        color: var(--ink);
+        margin-bottom: 16px;
+        text-align: center;
+        transition: color 0.3s;
+        
+        /* かっちょよくするためのポイント */
+        letter-spacing: 0.05em;      /* 文字の間隔をわずかに広げて高級感を出す */
+        word-break: keep-all;        /* 単語の途中での改行を防ぐ */
+        overflow-wrap: break-word;   /* 長すぎる単語だけを改行の対象にする */
+    }
+
+    .card-title-sub {
+        font-family: 'Noto Sans JP', sans-serif;
+        /* 最小値を少し下げて、推奨値を大きくすることで、広い画面でダイナミックに */
+        font-size: clamp(0.7rem, 2vw, 1.5rem); 
+        font-weight: 500;
+        line-height: 1.4;
+        color: var(--ink);
+        margin-bottom: 16px;
+        text-align: center;
+        transition: color 0.3s;
+        
+        /* かっちょよくするためのポイント */
+        letter-spacing: 0.05em;      /* 文字の間隔をわずかに広げて高級感を出す */
+        word-break: keep-all;        /* 単語の途中での改行を防ぐ */
+        overflow-wrap: break-word;   /* 長すぎる単語だけを改行の対象にする */
+    }
+
+    .card:hover .card-title-sub { color: #fff; }
+    .card:hover .card-title {color: #9a6f3a;}
+
+    .card-body {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--mid);
+      transition: color 0.3s;
+    }
+
+    .card:hover .card-body { color: rgba(255,255,255,0.65); }
+
+    /* ── STATEMENT ── */
+    .statement {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 100px 24px;
+      text-align: center;
+    }
+
+    .statement-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 4.5vw, 3.8rem);
+      line-height: 1.4;
+      max-width: 760px;
+      margin: 0 auto;
+      color: var(--ink);
+    }
+
+    .statement-text em {
+      font-style: italic;
+      color: var(--mid);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--ink);
+    }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: var(--mid);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scrollDrop {
+      0%   { top: -40px; }
+      100% { top: 100%; }
+    }
